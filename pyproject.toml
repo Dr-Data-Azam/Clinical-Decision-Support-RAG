@@ -1,0 +1,20 @@
+[project]
+name = "cdss-gp"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "chromadb>=1.0.15",
+    "ipykernel>=6.30.1",
+    "langchain>=0.3.27",
+    "langchain-chroma>=0.2.5",
+    "langchain-community>=0.3.27",
+    "langchain-groq>=0.3.7",
+    "langchain-huggingface>=0.3.1",
+    "langchain-openai>=0.3.29",
+    "langgraph>=0.6.3",
+    "pymupdf>=1.26.3",
+    "sentence-transformers>=5.1.0",
+    "streamlit>=1.48.0",
+]
