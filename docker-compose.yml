@@ -1,0 +1,18 @@
+services:
+  backend:
+    build:
+      context: .  # Use the root project folder as the build context
+      dockerfile: backend/Dockerfile # Point to the specific Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./.env
+
+  frontend:
+    build:
+      context: .  # Use the root project folder as the build context
+      dockerfile: frontend/Dockerfile # Point to the specific Dockerfile
+    ports:
+      - "8501:8501"
+    depends_on:
+      - backend

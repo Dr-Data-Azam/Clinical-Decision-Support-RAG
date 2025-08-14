@@ -7,7 +7,7 @@ from langchain.retrievers.contextual_compression import ContextualCompressionRet
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate, SystemMessagePromptTemplate, HumanMessagePromptTemplate
 from langchain_core.messages import BaseMessage, AIMessage
-from backend.config_state import ChatState, llm, embedding_model, structured_llm
+from config_state import ChatState, llm, embedding_model, structured_llm
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -18,7 +18,13 @@ _cached_vector_store = None
 _cached_retriever = None
 
 def intent_classifier(state: ChatState):
+    """
+    This function now includes logging to help debug the classification process.
+    """
+    print("--- INTENT CLASSIFICATION ---")
     query = state['query']
+    print(f"Received query: {query}")
+
     classifier_prompt = f"""
     You are an intent classification assistant.
     Your job is to read the user's query and classify it into EXACTLY one category:
@@ -30,8 +36,19 @@ def intent_classifier(state: ChatState):
     User query:
     {query}
     """
-    result = structured_llm.invoke(classifier_prompt).intent
-    return {"intent": result}
+    
+    try:
+        # We will try to invoke the LLM and see what happens
+        result_obj = structured_llm.invoke(classifier_prompt)
+        result_intent = result_obj.intent
+        print(f"LLM classified intent as: '{result_intent}'")
+        return {"intent": result_intent}
+    except Exception as e:
+        # If there is any error (like an API key issue), we will log it
+        # and default to the 'general' path.
+        print(f"ERROR during intent classification: {e}")
+        print("Defaulting to 'general' intent due to error.")
+        return {"intent": "general"}
 
 def general_query(state:ChatState):
     """Answer the general query"""

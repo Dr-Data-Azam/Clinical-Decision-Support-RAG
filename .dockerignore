@@ -1,0 +1,15 @@
+# General Python/IDE files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+.git/
+.vscode/
+
+# Ignore the environment file so it's not copied into the image
+.env
+
+# Project-specific directories to ignore
+# This will ignore the chroma_db folder if it's created inside the backend
+/backend/chroma_db/
